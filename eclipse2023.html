@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LEAFLET Cultura Solar - Eclipse 2023</title>
+    
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+
+    <link rel="icon" href="assets/Cultura Solar 1.png">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" ></script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="map.css">
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-dark navbar-expand-lg fixed-top">
+          <div class="container-fluid">
+              <a class="navbar-brand" href="index.html">
+                  <img class="mx-4" src="assets/Cultura Solar 1.png" alt="" width="140" height="93">
+              </a>
+              <h2>ECLIPSE ANULAR<br>DE SOL 2023</h2>
+              <!-- <h2>DE SOL 2023</h2> -->
+              <button class="navbar-toggler" type="button" onclick="navbarColor()" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+              </button>
+              <!-- Barra de navegacion con menus desplegables -->
+              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">                      
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                      <li class="nav-item">
+                        <a class="nav-link active fs-4 px-5 mx-3 text-white" aria-current="page" href="index.html">Inicio</a>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fs-4 px-5 mx-3 text-warning" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Eventos
+                        </a>
+                        <ul class="dropdown-menu bg-black" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item text-white" href="eventos.html">Eclipses</a></li>
+                          <li><a class="dropdown-item text-white" href="#">Efemérides Astronómicas</a></li>
+                          <li><a class="dropdown-item text-white" href="#">Próximos Eventos</a></li>
+                        </ul>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fs-4 px-5 mx-3 text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Artículos
+                        </a>
+                        <ul class="dropdown-menu bg-black" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item text-white" href="Noticias.html">Noticias y divulgación</a></li>
+                          <li><a class="dropdown-item text-white" href="sabias-que.html">Ciencias y tecnologías</a></li>
+                          <li><a class="dropdown-item text-white" href="#">Entrevistas</a></li>
+                          <li><a class="dropdown-item text-white" href="historias.html  ">Historia y Leyendas</a></li>
+                        </ul>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fs-4 px-5 mx-3 text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Multimedia
+                        </a>
+                        <ul class="dropdown-menu bg-black" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item text-white" href="fotos.html">Galería de Fotos</a></li>
+                          <li><a class="dropdown-item text-white" href="videos.html">Videos</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                    <!-- <a class="nav-link fs-2 px-5 mx-3 text-white" href="eventos.html">Eventos</a> -->
+                    <!-- <a class="nav-link fs-2 px-5 mx-3 text-white" href="videos.html">Leer más</a> -->
+                    <!-- <a class="nav-link fs-2 px-5 mx-3 text-white" href="Noticias.html">Noticias</a> -->
+                   <!--  <button type="button" id="toggleMode" class="btn btn-link fs-2 text-warning"><i class="bi bi-brightness-low-fill"></i></button>
+             -->  </div>
+              <!-- Fin barra de navegacion -->
+          </div> 
+      </nav>
+    </header>
+    
+    <div id="contenedor" class="contenedor">
+      <div id="map"></div> 
+      <!-- <div id="tooltip" class="ol-tooltip">
+        <div id="tooltip-content"></div>
+      </div> -->
+    </div>
+    <div id="textbox">
+      <div id="leyenda">
+        <h3>14 DE OCTUBRE DE 2023</h3>
+      <p>
+        <svg width="20" height="20">
+          <rect width="20" height="20" style="fill:#eacf26;stroke-width:3;stroke:rgb(0,0,0);margin:20%" />
+        </svg>
+        Anular
+      </p>
+      <p>
+        <svg width="20" height="20">
+          <rect width="20" height="20" style="fill:#e4a612;stroke-width:3;stroke:rgb(0,0,0);margin:20%" />
+        </svg>
+        99% - 80%
+      </p>
+      <p>
+        <svg width="20" height="20">
+          <rect width="20" height="20" style="fill:#ca541e;stroke-width:3;stroke:rgb(0,0,0);margin:20%" />
+        </svg>
+        79% - 60%
+      </p>
+      </div>
+      <div id="info-ciudad">
+        <h3 id="ciudad-nombre" style="text-transform:uppercase;"></h3>
+        <p id="ciudad-cobertura"></p>
+        <p id="ciudad-inicio"></p>
+        <p id="ciudad-maximo"></p>
+        <p id="ciudad-fin"></p>
+        <p id="ciudad-duracion"></p>
+      </div>
+    </div>    
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-2">
+      <div class="col-md-4 d-flex align-items-center">
+          <img class="mx-4" src="assets/Cultura Solar 1.png" alt="" width="80">
+      </div>
+
+      <!-- Copyright -->
+      <div class="text-center p-3">
+          Copyright © 2023 Cultura Solar
+      </div>
+      <!-- Copyright -->
+  
+      <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+          <li class="ms-3"><a class="text-dark fs-2" href="https://www.youtube.com/channel/UCLorQb66Jk3lun-M2wbxrGg" target="_blank"><i class="bi bi-youtube"></i></a></li>
+          <li class="ms-3"><a class="text-dark fs-2" href="https://instagram.com/difundiendoculturasolar?igshid=YmMyMTA2M2Y=" target="_blank"><i class="bi bi-instagram"></i></a></li>
+          <li class="ms-3"><a class="text-dark fs-2" href="https://twitter.com/cultura_solar?t=VS4rdWWas1IWQSpEoPkHBw&s=09" target="_blank"><i class="bi bi-twitter"></i></a></li>
+          <li class="ms-3"><a class="text-dark fs-2" href="https://www.tiktok.com/@difundiendoculturasolar?_t=8VxQACt9H6c&_r=1" target="_blank"><i class="bi bi-tiktok"></i></a></li>
+          <li class="ms-3"><a class="text-dark fs-2" href="https://www.facebook.com/difundiendoculturasolar/" target="_blank"><i class="bi bi-facebook"></i></a></li>
+          <li class="ms-3 me-4"><a class="text-dark fs-2" href="mailto: difundiendoculturasolar@gmail.com?" target="_blank"><i class="bi bi-chat-dots"></i></a></li>
+      </ul>
+    </footer>
+
+    <!-- <script type="module" src="js/mapa-ol.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-omnivore/0.3.4/leaflet-omnivore.min.js"></script>
+    <script>
+        // Definicion de mapa
+        const ciudades_json = "ciudades2023.json"
+        const capa_geojson = "datos2023.geojson"
+
+        const map = L.map('map', {
+        center: [19.4326, -99.1332],
+        zoom: 5,
+        minZoom: 3,
+        maxZoom: 8
+        });
+
+        var basemapLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          opacity: 0.95
+        }).addTo(map);
+
+        // Estilo de mapa
+        var basemapContainer = basemapLayer.getContainer();
+        basemapContainer.style.filter = 'invert(100%) hue-rotate(180deg) brightness(100%) contrast(160%) saturate(170%)';
+
+        // Cargar archivo KML con poligonos de eclipse
+        /* const kmlLayer = L.layerGroup().addTo(map);
+        omnivore.kml('datos2023.kml').addTo(kmlLayer); */
+
+        // Cargar archivo GeoJSON con poligonos, definiendo estilos
+        $.getJSON(capa_geojson, function(data) {
+          // Create a GeoJSON layer and add it to the map
+          L.geoJSON(data, {
+            style: function(feature) {
+              // Get the name of the feature
+              const name = feature.properties.name;
+              // Return an object of style options based on the name
+              if (name === "Umbra") {
+                return { fillColor: "#EACF26", color: "transparent" };
+              } else if (name === "N80-poly" || name === "S80-poly") {
+                return { fillColor: "#E4A612", color: "transparent" };
+              } else if (name === "N60-poly" || name === "S60-poly") {
+                return { fillColor: "#CA541E", color: "transparent" };
+              } else if (name === "N40-poly" || name === "S40-poly") {
+                return { fillColor: "rgba(202, 84, 30, 0.6)", color: "transparent" };
+              }
+            }
+          }).addTo(map);
+        });
+
+        // Definicion de puntos
+        const coordenadas = [
+            // Aguascalientes
+            [21.8818, -102.291],
+            // Mexicali
+            [32.6519, -115.468],
+            // La Paz
+            [24.1448, -110.313],
+            // San Francisco de Campeche
+            [19.8442, -90.5259],
+            // Tuxtla Gutiérrez
+            [16.7535, -93.1169],
+            // Chihuahua
+            [28.6320, -106.0691],
+            // Ciudad de México (Mexico City)
+            [19.4326, -99.1332],
+            // Saltillo
+            [25.4244, -101.0053],
+            // Colima
+            [19.2433, -103.7250],
+            // Durango
+            [24.0277, -104.6532],
+            // Guanajuato
+            [21.0190, -101.2574],
+            // Chilpancingo
+            [17.5518, -99.505],
+            // Pachuca
+            [20.1011, -98.7591],
+            // Guadalajara
+            [20.6597, -103.3496],
+            // Toluca
+            [19.2826, -99.6557],
+            // Morelia
+            [19.7049, -101.1953],
+            // Cuernavaca
+            [18.9220, -99.2348],
+            // Tepic
+            [21.5059, -104.8764],
+            // Monterrey
+            [25.6866, -100.3161],
+            // Oaxaca de Juárez
+            [17.0654, -96.7236],
+            // Puebla
+            [19.0414, -98.2063],
+            // Querétaro
+            [20.5888, -100.3899],
+            // Chetumal
+            [18.5001, -88.2996],
+            // San Luis Potosí
+            [22.1565, -100.9855],
+            // Culiacán
+            [24.8053, -107.3947],
+            // Hermosillo
+            [29.0970, -110.9719],
+            // Villahermosa
+            [17.9869, -92.9303],
+            // Ciudad Victoria
+            [23.7414, -99.1436],
+            // Tlaxcala
+            [19.3189, -98.2393],
+            // Xalapa
+            [19.5438, -96.9102],
+            // Mérida
+            [20.9676, -89.6237],
+            // Zacatecas
+            [22.7709, -102.5832]
+            ];
+        
+        var markers = [];
+        
+        var myIcon = L.icon({
+          iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+          iconSize: [20, 30], // set the size of the icon
+          //iconAnchor: [0.5, 0.5], // set the anchor point of the icon
+          //popupAnchor: [0, -30], // set the anchor point for the popup
+          // set the color of the icon
+          // you can also use rgba values or a color name like 'red', 'blue', etc.
+          //iconColor: 'red',
+        });
+
+        /*mostrar datos de ciudad con click*/
+        fetch(ciudades_json)
+          .then(response => response.json())
+          .then(ciudades => {
+            console.log("datos de ciudades accedidos en " + ciudades_json + "...")
+            const leyenda = document.getElementById("leyenda")
+            const info = document.getElementById("info-ciudad")
+            var ciudad_nombre = document.getElementById("ciudad-nombre")
+            var ciudad_cobertura = document.getElementById("ciudad-cobertura")
+            var ciudad_duracion = document.getElementById("ciudad-duracion")
+            var ciudad_inicio = document.getElementById("ciudad-inicio")
+            var ciudad_maximo = document.getElementById("ciudad-maximo")
+            var ciudad_fin = document.getElementById("ciudad-fin")
+            //info.style.display = "none";
+
+            for(let i = 0; i<coordenadas.length; i++){
+              markers[i] = L.marker(coordenadas[i], {icon: myIcon, maxZoom: 1}).on('click', clickEnCiudad).addTo(map);
+              //console.log(markers[i])
+            }
+
+            function clickEnCiudad(e)
+            {
+              for(coordenada of coordenadas){
+                if(coordenada[0] == e.latlng['lat'] && coordenada[1] == e.latlng['lng']){
+                  //var id = coordenadas.indexOf(coordenada)
+                  var ciudad_elegida = ciudades.find(item => item.id == coordenadas.indexOf(coordenada))
+                  console.log(ciudad_elegida["ciudad"])
+
+                  //Actualización de leyenda
+                  leyenda.style.display = "none";
+                  ciudad_nombre.innerHTML = ciudad_elegida['ciudad']
+                  ciudad_cobertura.innerHTML = "Parcialidad: &nbsp;" + ciudad_elegida['porcentaje-cobertura'] + "%"
+                  ciudad_inicio.innerHTML = "Inicia eclipse parcial: &nbsp;" + ciudad_elegida['inicio']
+                  ciudad_maximo.innerHTML = "Punto máximo: &nbsp;" + ciudad_elegida['maximo']
+                  ciudad_fin.innerHTML = "Termina eclipse parcial: &nbsp;" + ciudad_elegida['fin']
+                  ciudad_duracion.innerHTML = "Duración: &nbsp;" + ciudad_elegida['duracion']
+                  info.style.display = "block";
+                }
+              }
+            }
+            
+            // PENDIENTE: CREAR FN PARA REESTABLECER LEYENDA AL CLICKEAR CAPA GEOJSON
+
+          });
+
+    </script>
+
+  </body>
+</html>
